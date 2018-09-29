@@ -1,0 +1,96 @@
+<header class="header primary-background text-white">Postman Chat</header>
+<div class="">
+  <div class="messaging">
+    <div class="inbox-msg">
+      <div class="inbox-friend">
+        <div class="heading-srch">
+          <div class="srch-bar">
+            <div class="stylish-input-group">
+              <input [(ngModel)]="findFriend" type="text" class="search-bar" placeholder="Search">
+              <span class="input-group-addon">
+                <button type="button">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="inbox-chat" *ngIf="friends">
+          <div class="chat-list" [ngClass]="user == friend ? 'active-chat text-white' : ''" *ngFor="let user of friends | filter : findFriend; let index = index"
+            (click)="selectFriend(user)">
+            <div class="chat-friend">
+              <div class="chat-img">
+                <img class="chat-img-icon" [src]="user.picture.medium" alt="Please go online"> 
+              </div>
+              <div class="chat-ib">
+                <h5>{{user.name.first}} {{user.name.last}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mesgs" *ngIf="friend">
+        <div class="msg-history" *ngIf="messages.length" #scrollArea>
+          <ng-container *ngFor="let message of messages">
+            <div class="incoming-msg" *ngIf="message.fromServer">
+              <div class="incoming-msg-img">
+                <img class="chat-img-icon" [src]="friend.picture.medium" alt="Please go online"> 
+              </div>
+              <div class="received-msg">
+                <div class="received-withd-msg">
+                  <p>{{message.content}}</p>
+                  <span class="time-date-left"> {{getDateTime(message.time)}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="outgoing-msg" *ngIf="!message.fromServer">
+              <div class="outgoing-msg-img">
+                <img class="chat-img-icon" src="assets/user-icon.png" > 
+              </div>
+              <div class="sent-msg">
+                <p>{{message.content}}</p>
+                <span class="time-date-right">{{getDateTime(message.time)}}</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="msg-history" *ngIf="!messages.length">
+          <div class="incoming-msg">
+            <div class="incoming-msg-img">
+              <img class="chat-img-icon" src="assets/user-icon.png" > 
+            </div>
+            <div class="received-msg">
+              <div class="received-withd-msg">
+                <p>Hey,Start your conversation with
+                  <b>{{friend.name.title}} {{friend.name.first}} {{friend.name.last}}</b>
+                </p>
+                <span class="time-date-left">Just Now</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-msg">
+          <div class="input-msg-write">
+            <input type="text" [(ngModel)]="clientMessage" class="write-msg" placeholder="Type a message" />
+            <button class="msg-send-btn" (click)="doSend('hello')" type="button">
+              <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mesgs" *ngIf="!friend">
+        <div class="incoming-msg">
+          <div class="incoming-msg-img">
+            <img class="chat-img-icon" src="assets/user-icon.png" > 
+          </div>
+          <div class="received-msg">
+            <div class="received-withd-msg">
+              <p>Welcome please select user to start conversation</p>
+              <span class="time-date-left">Just Now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

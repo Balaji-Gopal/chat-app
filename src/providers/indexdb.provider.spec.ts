@@ -1,17 +1,23 @@
 import { IndexDbProvider } from './indexdb.provider';
 import { Z_DEFAULT_STRATEGY } from 'zlib';
 const content = require('../assets/randomuser.json');
-import { async } from '@angular/core/testing';
+import { AngularIndexedDB } from 'angular2-indexeddb';
+import * as _ from 'underscore';
 
 describe('IndexDbProvider', () => {
     let indexDbProvider: IndexDbProvider;
-
+    /**
+     * before execution of all test cases initialte the db
+     */
     beforeAll(() => {
         indexDbProvider = new IndexDbProvider();
-        indexDbProvider.openDbAndCreateObjectStore('testDb', content.results);
+        indexDbProvider.openDbAndCreateObjectStore('myChatDb', content.results);
     });
 
-    it('add records to test db and return the value true', function() {
+    /**
+     * Test case to add the records to the db
+     */
+    it('add records to test db and return the value true', () => {
         let store = {
             name: {
                 title: 'Mr',
@@ -26,7 +32,10 @@ describe('IndexDbProvider', () => {
         expect(indexDbProvider.addRecord(store, message)).toBeTruthy();
     });
 
-    it('get all the records from the store', function() {
+    /**
+     * Test case to get all valid records from the db for the given store name
+     */
+    it('get all the records from the store', () => {
         let store = {
             name: {
                 title: 'Mr',

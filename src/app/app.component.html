@@ -72,7 +72,7 @@
         <div class="type-msg">
           <div class="input-msg-write">
             <input type="text" [(ngModel)]="clientMessage" class="write-msg" placeholder="Type a message" />
-            <button class="msg-send-btn" (click)="doSend('hello')" type="button">
+            <button class="msg-send-btn" [disabled]="disableSend" (click)="doSend('hello')" type="button">
               <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
             </button>
           </div>

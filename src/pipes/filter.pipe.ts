@@ -2,6 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'filter'
 })
+/**
+ * Pipe component to filter the list item based on the search string entered in search box
+ */
 export class FilterPipe implements PipeTransform {
   transform(items: any[], findFriend: string): any[] {
     if ( !items ) {

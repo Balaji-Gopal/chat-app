@@ -9,6 +9,9 @@ import { FilterPipe } from '../pipes/filter.pipe';
 
 describe('AppComponent', () => {
   let appComponent: AppComponent;
+  /**
+   * beafore each test case load the required components to the test bed
+   */
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -22,49 +25,59 @@ describe('AppComponent', () => {
         IndexDbProvider
       ]
     }).compileComponents();
+
   }));
 
-  it('search for friend', async(() => {
+  /**
+   * Test case to search the friend
+   */
+  it('search for friend', () => {
     let indexDbProvider: IndexDbProvider;
     indexDbProvider = new IndexDbProvider();
-    indexDbProvider.openDbAndCreateObjectStore('testDb', content.results);
+    indexDbProvider.openDbAndCreateObjectStore('myChatDb', content.results);
     let fixture = TestBed.createComponent(AppComponent);
     let app = fixture.componentInstance;
     app.findFriend = 'oka';
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h5').textContent).toBe('Okan Ilicali');
-  }));
+  });
 
-  it('select a freind', async(() => {
+  /**
+   * Test case to select the friend
+   */
+  it('select a freind', () => {
     let indexDbProvider: IndexDbProvider;
     indexDbProvider = new IndexDbProvider();
-    indexDbProvider.openDbAndCreateObjectStore('testDb', content.results);
+    indexDbProvider.openDbAndCreateObjectStore('myChatDb', content.results);
     let fixture = TestBed.createComponent(AppComponent);
     let app = fixture.componentInstance;
     app.selectFriend(content.results[0]);
-    expect(app.friend).toBe(content.results[0]);
-  }));
-
-  it('post a message and should render sent message in p tag', async(() => {
-    let indexDbProvider: IndexDbProvider;
-    indexDbProvider = new IndexDbProvider();
-    indexDbProvider.openDbAndCreateObjectStore('testDb', content.results);
-    let fixture = TestBed.createComponent(AppComponent);
-    let app = fixture.componentInstance;
-    app.selectFriend(content.results[0]);
-    app.clientMessage = 'Test send message';
-    let message = new Message(
-      app.friend.name.first,
-      app.clientMessage,
-      Date.now(),
-      false
-    );
-    app.indexDbProvider = indexDbProvider;
-    app.doSend();
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('p').textContent).toContain('Test send message');
-  }));
+    expect(app.friend).toBe(content.results[0]);
+  });
+
+  /**
+   * Test case to post a message to friend
+   */
+  it('post a message and should render sent message in p tag', () => {
+    let indexDbProvider: IndexDbProvider;
+    indexDbProvider = new IndexDbProvider();
+    indexDbProvider.openDbAndCreateObjectStore('myChatDb', content.results);
+    setTimeout(() => {
+      let fixture = TestBed.createComponent(AppComponent);
+      let app = fixture.componentInstance;
+      app.selectFriend(content.results[0]);
+      app.clientMessage = 'Test send message';
+      app.indexDbProvider = indexDbProvider;
+      app.doSend();
+        setTimeout(() => {
+          fixture.detectChanges();
+          let compiled = fixture.debugElement.nativeElement;
+          expect(compiled.querySelector('p').textContent).toContain('Test send message');
+        }, 2000);
+    }, 2000);
+  });
 
 });

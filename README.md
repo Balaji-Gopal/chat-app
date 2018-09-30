@@ -22,6 +22,19 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
+## If you ran into pyhton issue while installing node-gyp
+
+Please run the below command
+`npm install --global --production windows-build-tools`
+
+And then do install
+`npm install --global node-gyp`
+
+And the continue
+`npm install`
+
+##Note: For ease of installation please do run all the above commands in administrator prompt or with root sudo permissions
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
